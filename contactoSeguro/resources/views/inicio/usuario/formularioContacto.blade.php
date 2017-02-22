@@ -1,4 +1,4 @@
-@include('template.arriba')
+@include('template.arribaUsuario')
 
 <div class="container-fluid">
     <div class="row">

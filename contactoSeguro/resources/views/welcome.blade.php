@@ -1,95 +1,42 @@
-<!DOCTYPE html>
-<html lang="{{ config('app.locale') }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@include('template.arriba')
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
+<div class="container-fluid">
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-3">
         </div>
-    </body>
-</html>
+        <div class="col-md-6 text-center">
+                <h1> Bienvenido a Contacto Seguro</h1>
+                <h3>Mantenga seguros a sus familiares y amigos mediante nuestra red de monitorización de actividades en línea, de manera fácil y completamente confiable.</h3>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <hr>
+    <div class="row text-center">
+    <br>
+    <br>
+    
+        <div style="padding-left: 5%;padding-right: 5%" class="col-md-4">
+            <span style="font-size: 100px;" class="glyphicon glyphicon-phone" aria-hidden="true"></span>
+            <h2>1. Descargue e instale</h2>
+            <h3>Contacto Seguro para Android en sus dispositivos y en los de sus contactos</h3>
+        </div>
+        <div style="padding-left: 5%;padding-right: 5%" class="col-md-4">
+            <span style="font-size: 100px;" class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            <h2>2. Cree un perfil</h2>
+            <h3>y luego invite a sus contactos a formar parte de esta red segura.</h3>
+        </div>
+        <div style="padding-left: 5%;padding-right: 5%" class="col-md-4">
+            <span style="font-size: 100px;" class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+            <h2>3. ¡Eso es todo!</h2>
+            <h3>Ve en línea la actividad de sus contactos en nuestro sitio web o en su dispositivo Android.</h3>
+        </div>
+    </div>
+</div>
+
+@include('template.abajo')

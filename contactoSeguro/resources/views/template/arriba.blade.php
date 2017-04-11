@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css')}}"  />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    
     <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}" ></script>
-    
-
-
-
+	<script src="{{ asset('password/js/jquery.complexify.js')}}"></script>
+	<script src="{{ asset('password/js/script.js')}}"></script>
+	<link rel="stylesheet" href="{{ asset('password/css/styles.css')}}" />
+        <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css')}}"/>
+        <!--[if lt IE 9]>
+          <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    <link rel="stylesheet" href="{{asset('footer/css/demo.css')}}">
+	<link rel="stylesheet" href="{{asset('footer/css/footer-distributed-with-address-and-phones.css')}}">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
     <title>Contacto Seguro</title>
 </head>
 <body>

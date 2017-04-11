@@ -11,24 +11,46 @@
     <hr>
     <div class="row text-left">
         <div style="padding-left: 5%;padding-right: 5%;border-right: solid 1px #eee;" class="col-md-8">
-           <form>
+            <?php
+              if(isset($mensaje)){
+                ?>
+                <div class="alert alert-{{$mensaje['class']}}">{{$mensaje['mensaje']}}</div>
+              <?php
+              }
+            ?>
+           <form id="registro" method="post" action="{{action('PersonaController@crearPersona')}}">
+            {{csrf_field()}}
+              <div class="row text">
                 <label>Nombre de usuario:</label>
-               <input class="form-control" type="text" name="nickName" placeholder="Nombre de usuario">
+               <input required="" class="form-control" type="text" name="nickname" placeholder="Nombre de usuario">
                <br>
+               </div>
+               <div class="row email">
                <label>Correo electrónico</label>
-               <input class="form-control" type="mail" name="correo" placeholder="ejemplo@ejemplo.com">
+               <input required="" id="email" class="form-control" type="email" name="correo" placeholder="ejemplo@ejemplo.com">
                <br>
+               </div>
+               <div class="row pass password">
                <label>Contraseña</label>
-               <input class="form-control" type="password" name="password" >
+               <input required="" class="form-control inputPassword" id="password1" type="password" name="password" >
                <br>
+               </div>
+               <div class="row pass">
                <label>Confirmar la contraseña</label>
-               <input class="form-control" type="password" name="password" >
+               <input disabled="true" id="password2" required="" class="form-control" type="password" name="password1" >
                <br>
+               </div>
+
+               <script src="{{asset('password/js/bootstrap-strength.js')}}"></script>
+                <script>
+                $('.inputPassword').bootstrapStrength();
+                </script>
                <div class="text-center">
                     <input class="form-control" type="checkbox" name="condiciones" ><i>Acepto los términos y condiciones</i>
                     <br>
                     <br>
-                    <a class="btn btn-success" href="{{url('login')}}">Crear cuenta</a>
+                    <input type="submit" name="crearUsuario" value="Crear cuenta" class="btn btn-success">
+                    <?php /*<a class="btn btn-success" href="{{url('login')}}">Crear cuenta</a>*/ ?>
                </div>
            </form>
         </div>

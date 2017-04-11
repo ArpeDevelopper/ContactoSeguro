@@ -23,16 +23,12 @@ Route::get('login', function () {
     return view('login')->with("active","login");
 });
 
-Route::get('inicio/mi-cuenta', function () {
-    return view('inicio/usuario/welcome')->with("active","inicio");
-});
+Route::get('inicio/mi-cuenta', 'UsuarioController@mostrarInicio');
 
 Route::get('contactos', function () {
     return view('inicio/usuario/contactos')->with("active","contactos");
 });
-Route::get('contactos/crear', function () {
-    return view('inicio/usuario/formularioContacto')->with("active","");
-});
+Route::get('contactos/crear', 'UsuarioController@mostrarFormularioBuscar');
 
 Route::get('mensajes', function () {
     return view('inicio/usuario/mensajes')->with("active","mensajes");
@@ -68,3 +64,19 @@ Route::get('eventos/{id}', function () {
 Route::get('contactos/{id}', function () {
     return view('inicio/contactos/contactos')->with("active","");
 });
+
+//ruta para crear un usuario
+Route::post('crear/usuario', 'PersonaController@crearPersona');
+
+//ruta para verificar datos del login
+Route::post('login/entrar','Auth\AuthController@postLogin');
+
+//ruta para realizar el logout
+Route::get('login/salir','Auth\AuthController@logOut');
+
+//ruta para buscar un contacto
+Route::post('buscar/contacto','UsuarioController@buscarContacto');
+
+//ruta para enviar solicitud
+Route::post('contato/enviar-solicitud','NotificacionController@enviarSolicitud');
+Route::get('contato/aceptar-solicitud/{idn}/{ide}/{idu}','NotificacionController@aceptarSolicitud');

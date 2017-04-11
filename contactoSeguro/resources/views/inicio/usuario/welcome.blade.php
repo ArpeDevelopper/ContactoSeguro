@@ -8,7 +8,7 @@
             <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
         </div>
         <div class="col-md-10 text-left">
-                <h1>Luis Gonzalez </h1>
+                <h1>{{Auth::user()->nickname}} </h1>
                 <h3>En línea</h3>
         </div>
     </div>

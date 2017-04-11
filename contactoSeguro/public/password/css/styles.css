@@ -1,0 +1,33 @@
+
+/*----------------------------
+	The Form
+-----------------------------*/
+
+form .row.success:after{
+	margin-top: -25px;
+	width:32px;
+	height:32px;
+	background:url('../img/icons.png') no-repeat;
+}
+
+form .row.error:after{
+	margin-top: -25px;
+	width:70px;
+	height:32px;
+	background:url('../img/icons.png') no-repeat;
+	background-position: 0 -79px;
+}
+form .row.error1.password:after{
+	
+	content: 'Muy débil';
+	margin-top: -30px;
+	width:70px;
+	height:32px;
+	color: red;
+	font-weight: bold;
+}
+form input[disabled]{
+	opacity: 0.5;
+}
+
+

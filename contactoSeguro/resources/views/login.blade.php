@@ -11,12 +11,20 @@
     <hr>
     <div class="row text-left">
         <div style="padding-left: 5%;padding-right: 5%;border-right: solid 1px #eee;" class="col-md-8">
-           <form>
-                <label>Nombre de usuario o correo electrónico:</label>
-               <input class="form-control" type="text" name="nickName" placeholder="Nombre de usuario o ejemplo@ejemplo.com">
+          <?php
+              if(isset($mensaje)){
+                ?>
+                <div class="alert alert-{{$mensaje['class']}}">{{$mensaje['mensaje']}}</div>
+              <?php
+              }
+            ?>
+           <form method="POST" action="{{action('Auth\AuthController@postLogin')}}">
+           {{csrf_field()}}
+                <label>Nombre de usuario</label>
+               <input class="form-control" type="text" name="usuario" placeholder="Nombre de usuario">
                <br>
                <label>Contraseña</label>
-               <input class="form-control" type="password" name="password" >
+               <input placeholder="Contraseña" class="form-control" type="password" name="password" >
                <br>
                <a href="">¿Olvidó su contraseña?</a>
                <br>
@@ -24,7 +32,8 @@
                     <input class="form-control" type="checkbox" name="condiciones" ><i>Mantenerme conectado</i>
                     <br>
                     <br>
-                    <a class="btn btn-success" href="{{url('inicio/mi-cuenta')}}">Iniciar sesión</a>
+                    <?php //<a class="btn btn-success" href="{{url('inicio/mi-cuenta')}}">Iniciar sesión</a> ?>
+                    <input type="submit" name="entrar" value="Iniciar sesión" class="btn btn-success">
                     o 
                     <a class="btn btn-info" href="{{url('cuenta/crear')}}">Crear cuenta</a>
                </div>

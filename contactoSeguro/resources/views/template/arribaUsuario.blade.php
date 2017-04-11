@@ -6,7 +6,10 @@
     
 
 
-
+    <link rel="stylesheet" href="{{asset('footer/css/demo.css')}}">
+	<link rel="stylesheet" href="{{asset('footer/css/footer-distributed-with-address-and-phones.css')}}">
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
     <title>Contacto Seguro</title>
 </head>
 <body>
@@ -34,19 +37,26 @@
 						<a href="{{ url('mensajes') }}">Mensajes</a>
 					</li>
 				</ul> 
+				<?php
+				$notificaciones = listarNotificaciones(Auth::user()->idUsuario);
+				?>
 				<ul class="nav navbar-nav navbar-right"> 
 					<li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="badge">2</span></a>
-			          <ul class="dropdown-menu">
-			            <li><a href="#"> Notificación 1 </a></li>
-			            <li><a href="#"> Notificación 2 </a></li>
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="badge">{{count($notificaciones)}}</span></a>
+			          <ul style="max-height: 400px;overflow: auto;" class="dropdown-menu">
+			          	@foreach($notificaciones as $notif)
+			          	<?php  //foreach para las notificaciones
+			          		$mensajeN = json_decode($notif->mensaje);
+			          	?>
+			            <a style="text-align:center;text-decoration: none" href="{{action($mensajeN->enlace,[$notif->idNotificacion,$mensajeN->emisor,$notif->idUsuario])}}"><li class="btn-{{$mensajeN->class}}" style="width:250px;padding: 15px;" >{{$mensajeN->mensaje}} </li></a><hr style="margin: 0px;"/>
+			         	@endforeach
 			          </ul>
 			        </li>
 					<li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Luis Gonzalez <span class="caret"></span></a>
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->nickname}} <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
-			            <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Mi perfil</a></li>
-			            <li><a href="{{url('/')}}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Cerrar sesión</a></li>
+			            <li><a href="{{url('inicio/mi-cuenta')}}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Mi perfil</a></li>
+			            <li><a href="{{action('Auth\AuthController@logOut')}}"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Cerrar sesión</a></li>
 			          </ul>
 			        </li>
 				</ul> 

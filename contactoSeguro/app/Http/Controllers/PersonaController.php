@@ -10,6 +10,7 @@ class PersonaController extends Controller
     var $context;
 
     public function crearPersona(Request $r){
+        date_default_timezone_set('America/Merida');
     	$context = $r->all();//guardamos los datos enviados por post en una variable
     	$bObject = new BusinessObject($context);//creamos objeto bussines object
 

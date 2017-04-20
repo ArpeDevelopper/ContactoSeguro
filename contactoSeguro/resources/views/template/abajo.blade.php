@@ -3,53 +3,47 @@
 <footer class="footer-distributed">
 	<div class="row">
 		<div class="col-md-4">
-			<h3>Company<span>logo</span></h3>
+			<h3>Contacto<span>Seguro</span></h3>
 			<p class="footer-links">
-				<a href="#">Home</a>
+				<a href="#">Nosotros</a>
 				·
-				<a href="#">Blog</a>
+				<a href="#">Ayuda</a>
 				·
-				<a href="#">Pricing</a>
-				·
-				<a href="#">About</a>
-				·
-				<a href="#">Faq</a>
-				·
-				<a href="#">Contact</a>
+				<a href="#">Contáctanos</a>
 			</p>
 
-			<p class="footer-company-name">Company Name &copy; 2015</p>
+			<p class="footer-company-name">Contacto Seguro &copy; 2017</p>
 		</div>
 
 		<div class="col-md-4">
-			<div>
+			<div style="color: white">
 				<i class="fa fa-map-marker"></i>
-				<p><span>21 Revolution Street</span> Paris, France</p>
+				<p><span>Calle 115 (Circuito Colonias Sur) No. 404 por Calle 50, Santa Rosa, </span>97279 Mérida, Yucatán, México</p>
 			</div>
-			<div>
+			<div style="color: white">
 				<i class="fa fa-phone"></i>
-				<p>+1 555 123456</p>
+				<p>+52 99 97 52 57 42</p>
 			</div>
 
-			<div>
+			<div style="color: white">
 				<i class="fa fa-envelope"></i>
-				<p><a href="mailto:support@company.com">support@company.com</a></p>
+				<p><a href="mailto:soporte@contacto-seguro.com">soporte@contacto-seguro.com</a></p>
 			</div>
 		</div>
 
 		<div class="col-md-4">
 
 			<p class="footer-company-about">
-				<span>About the company</span>
-				Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+				<span>Acerca de nosotros</span>
+				Contacto seguro, es una plataforma desarrollada por profesionales informáticos para brindarle un servicio para la seguridad de usted y sus contactos.
 			</p>
 
 			<div class="footer-icons">
 
-				<a href="#"><i class="fa fa-facebook"></i></a>
-				<a href="#"><i class="fa fa-twitter"></i></a>
-				<a href="#"><i class="fa fa-linkedin"></i></a>
-				<a href="#"><i class="fa fa-github"></i></a>
+				<a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
+				<a href="https://www.twitter.com"><i class="fa fa-twitter"></i></a>
+				<a href="https://www.linkedin.com"><i class="fa fa-linkedin"></i></a>
+				<a href="https://www.github.com"><i class="fa fa-github"></i></a>
 			</div>
 		</div>
 	</div>

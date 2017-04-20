@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/chat', function () {
+    return view('chat');
+});
 
 Route::get('/', function () {
     return view('welcome')->with("active","inicio");
@@ -23,47 +26,43 @@ Route::get('login', function () {
     return view('login')->with("active","login");
 });
 
+Route::post('actualizar/ubicacion', 'UsuarioController@actualizarUbicacion');
 Route::get('inicio/mi-cuenta', 'UsuarioController@mostrarInicio');
+Route::get('inicio/mi-perfil', 'UsuarioController@mostrarPerfil');
+Route::post('inicio/modificar-perfil', 'UsuarioController@modificarPerfil');
 
-Route::get('contactos', function () {
-    return view('inicio/usuario/contactos')->with("active","contactos");
-});
+Route::get('contactos', 'ContactoController@listarContactosPrimerNivel');
 Route::get('contactos/crear', 'UsuarioController@mostrarFormularioBuscar');
 
-Route::get('mensajes', function () {
-    return view('inicio/usuario/mensajes')->with("active","mensajes");
-});
+Route::get('mensajes', 'MensajeController@listaContactosMensajes');
+Route::get('mensajes/{idc}', 'MensajeController@listarMensajesContacto');
+Route::post('mensajes/enviar', 'MensajeController@enviarMensaje');
 
-Route::get('actividades', function () {
-    return view('inicio/usuario/actividades')->with("active","");
-});
 
-Route::get('eventos', function () {
-    return view('inicio/usuario/eventos')->with("active","");
-});
-Route::get('eventos/crear', function () {
-    return view('inicio/usuario/formularioEvento')->with("active","");
-});
+Route::get('eventos', 'EventosController@mostrarCalendario');
+Route::get('eventos/formulario/{id}', 'EventosController@obtenerEvento');
+Route::post('eventos/modificar', 'EventosController@modificarEvento');
+Route::get('eventos/formulario', 'EventosController@formularioEvento');
+Route::post('eventos/crear', 'EventosController@crearEvento');
+Route::post('eventos/eliminar', 'EventosController@eliminarEvento');
 
-Route::get('contacto/{id}', function () {
-    return view('inicio/contactos/contacto')->with("active","contactos");
-});
+Route::get('contacto/{id}', 'ContactoController@mostrarDetalleContacto');
 
-Route::get('mensajes/{id}', function () {
+/*Route::get('mensajes/{id}', function () {
     return view('inicio/contactos/mensajes')->with("active","mensajes");
-});
+});*/
 
-Route::get('actividades/{id}', function () {
+/*Route::get('rutinas/{id}', function () {
     return view('inicio/contactos/actividades')->with("active","");
-});
+});*/
+Route::get('rutinas', 'RutinasController@listarRutinas');
+Route::get('rutinas/eliminar/{id}', 'RutinasController@eliminarRutina');
 
 Route::get('eventos/{id}', function () {
     return view('inicio/contactos/eventos')->with("active","");
 });
 
-Route::get('contactos/{id}', function () {
-    return view('inicio/contactos/contactos')->with("active","");
-});
+Route::get('contactos/{id}', 'ContactoController@listarContactosSegundoNivel');
 
 //ruta para crear un usuario
 Route::post('crear/usuario', 'PersonaController@crearPersona');
@@ -80,3 +79,7 @@ Route::post('buscar/contacto','UsuarioController@buscarContacto');
 //ruta para enviar solicitud
 Route::post('contato/enviar-solicitud','NotificacionController@enviarSolicitud');
 Route::get('contato/aceptar-solicitud/{idn}/{ide}/{idu}','NotificacionController@aceptarSolicitud');
+Route::get('contato/aceptado/{idn}/{ide}/{idu}','NotificacionController@infoSolicitudAceptada');
+
+//calendario
+Route::get('calendario', 'EventosController@mostrarCalendario');

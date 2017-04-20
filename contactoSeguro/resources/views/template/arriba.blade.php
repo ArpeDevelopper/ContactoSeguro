@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<?php date_default_timezone_set('America/Merida'); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    
     <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}" ></script>
 	<script src="{{ asset('password/js/jquery.complexify.js')}}"></script>
@@ -27,7 +29,7 @@
         			<span class="icon-bar"></span>
         			<span class="icon-bar"></span>
       			</button>
-      			<a class="navbar-brand" href="{{ url('/') }}">Contacto Seguro</a>
+      			<a style="margin-right: 70px" class="navbar-brand" href="{{ url('/') }}"><center><img width="70" height="80" style="top: 0px;position: absolute;border-radius: 0px 0px 90px 90px;background-color: #f8f8f8;" src="{{asset('img/logo.png')}}"> </center></a>
     		</div> 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> 
 				<ul class="nav navbar-nav"> 

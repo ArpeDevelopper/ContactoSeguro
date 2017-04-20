@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-md-12 text-center">
-            <h2>Contactos de Juan Cruz</h2>
+            <h2>Contactos de {{$contacto->nombre.' '.$contacto->apellidoPaterno}}</h2>
         </div>
     </div>
 
@@ -13,52 +13,66 @@
         <div class="col-md-3" style="padding-left: 5%;padding-right: 5%;">
                     <div class="panel panel-primary">
                         <ul class="list-group text-left">
-                            <a  href="{{url('contacto/1')}}">
+                            <a  href="{{url('contacto/'.$contacto->idPersona)}}">
                                 <li style="color: black" class="btn-info list-group-item">
                                 <span class="glyphicon glyphicon-eye-open"></span> Estado
                                 </li>
                             </a>
-                            <a  href="{{url('actividades/1')}}">
-                                <li style="color: black" class="btn-info list-group-item">
-                                <span class="glyphicon glyphicon-tasks"></span> Actividades
-                                </li>
-                            </a>
-                            <a style="color: black" href="{{url('contactos/1')}}">
+                            
+                            <a style="color: black" href="{{url('contactos/'.$contacto->idPersona)}}">
                                 <li style="color: black" class="btn-info list-group-item">
                                 <span class="glyphicon glyphicon-list"></span> Contactos
                                 </li>
                             </a>
-                            <a  href="{{url('eventos/1')}}">
+                            <a style="color: black" href="{{url('mensajes/'.$contacto->idPersona)}}">
                                 <li style="color: black" class="btn-info list-group-item">
-                                <span class="glyphicon glyphicon-bullhorn"></span> Eventos</li>
+                                <span class="glyphicon glyphicon-comment"></span> Enviar mensaje
+                                </li>
                             </a>
                         </ul>
                     </div>
         </div>
         <div class="col-md-9" style="border-left: solid #eee 1px">
-            <div class="row">
-                <div class="col-md-4">
-                    <div style="background-color: #eee;border:dotted black;margin: 20px; padding:5px" class="row">
-                        <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-                        <h2>Contacto1</h2>
-                        <h3><a href="{{url('contacto/1')}}">Ver información</a></h3>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div style="background-color: #eee;border:dotted black;margin: 20px; padding:5px" class="row">
-                        <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-                        <h2>Contacto 2</h2>
-                        <h3><a href="{{url('contacto/1')}}">Ver información</a></h3>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div style="background-color: #eee;border:dotted black;margin: 20px; padding:5px" class="row">
-                        <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-                        <h2>Contacto 3</h2>
-                        <h3><a href="{{url('contacto/1')}}">Ver información</a></h3>
-                    </div>
-                </div>
-            </div>
+            
+            <?php
+                $contador = 1;
+                $columnas = 3;
+                if (count($lc)>0) {
+                foreach ($lc as $contacto) {
+                    if ($contador==1) {
+                        echo "<div class='row' >";
+                    }
+                    if ($contacto->idUsuarioContacto!=Auth::user()->idUsuario) {
+            ?>
+                        <div class="col-md-4" >
+                            <div style="margin:10px; background-color: #eee;border:dotted black;padding: 10px; border-radius:15px;" class="row">
+                                <?php
+                                $fotoUsuario = $contacto->foto; 
+                                ?>
+                                <img style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="150" height="150">
+
+                                <h2>{{$contacto->nickname}}</h2>
+                                <h3>{{$contacto->correo}}</h3>
+                                <a class="btn btn-info" href="{{url('mensajes/'.$contacto->idUsuarioContacto)}}">Enviar mensaje</a>
+                            </div>
+                        </div>
+            <?php
+                    if ($contador==$columnas) {
+                        echo "</div>";
+                        $contador=0;
+                    }
+                    $contador++;
+                    }//fin if si es el usuario logueado
+                }//fin foreach
+            }else{
+                echo "<h3>Aún no has agregado contactos.</h3>";
+            }
+
+                if ($contador>1 && $contador<$columnas) {
+                    echo "</div>";
+                }
+            ?>
+
         </div>
     </div>
 </div>

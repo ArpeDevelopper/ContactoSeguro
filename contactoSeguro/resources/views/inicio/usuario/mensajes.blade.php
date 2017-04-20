@@ -1,19 +1,12 @@
 @include('template.arribaUsuario')
 
 <div class="container-fluid">
-    <br>
 
     <div class="row">
-        <div class="col-md-2 text-center">
-            <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-        </div>
-        <div class="col-md-10 text-left">
-                <h1>Juan Cruz </h1>
-                <h3>En línea</h3>
+        <div class="col-md-12 text-center">
+            <h2 style="font-size: 25px"><span class="glyphicon glyphicon-comment"></span> Mis mensajes</h2>
         </div>
     </div>
-    <br>
-
     <hr>
     <div class="row text-center">
     
@@ -25,30 +18,14 @@
                         <span class="glyphicon glyphicon-eye-open"></span> Estado
                         </li>
                     </a>
-                    <a  href="{{url('actividades')}}">
+                    <a  href="{{url('rutinas')}}">
                         <li style="color: black" class="btn-info list-group-item">
-                        <span class="glyphicon glyphicon-tasks"></span> Actividades
+                        <span class="glyphicon glyphicon-tasks"></span> Rutinas
                         </li>
                     </a>
                     <a style="color: black" href="{{url('mensajes')}}">
                         <li style="color: black" class="btn-info list-group-item">
-                        <span class="glyphicon glyphicon-comment"></span> Mensajes
-            
-                            <ul style="max-height: 400px;overflow-y: scroll;" class="list-group text-left">
-                                <a  href="#">
-                                    <li style="color: black" class="btn-info list-group-item">
-                                    Juan Cruz</li>
-                                </a>
-                                <a style="color: black" href="{{url('mensajes')}}">
-                                    <li style="color: black" class="btn-info list-group-item">
-                                    Jesus Ross</li>
-                                </a>
-                                <a style="color: black" href="{{url('mensajes')}}">
-                                    <li style="color: black" class="btn-info list-group-item">
-                                    Juan Vazquez</li>
-                                </a>
-                            </ul>
-            
+                        <span class="glyphicon glyphicon-comment"></span> Mensajes            
                         </li>
                     </a>
                     <a  href="{{url('eventos')}}">
@@ -62,30 +39,99 @@
             
             
         </div>
-        <div class="col-md-9" style="border-left: solid 1px #eee;">
-            <div class="row">
-                <div class="col-md-3">
-                    <p style="font-size: 25px"><span class="glyphicon glyphicon-comment"></span> Mensajes</p>
-                </div>
-                <div class="col-md-9 text-right">
-                    <p style="font-size: 25px"><span class="glyphicon glyphicon-calendar"></span> Hoy</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <textarea class="form-control" style="border:1;width: 100%; height: 150px;overflow-y: scroll;"></textarea>
-                </div>
+        <div class="text-left col-md-2" style="border-left: solid 1px #eee;">
+            <b>Contactos:</b>
+            <br/>
+            <ul class="list-group">
+                @foreach ($listaContactos as $contacto)
 
-                <div class="col-md-12">
-                    <br>
-                    <div class="input-group">
-                        <textarea placeholder="Escriba su mensaje aquí..." class="form-control" style="border:1;width: 100%; height: 50px;overflow-y: scroll;"></textarea>
-                        <div class="input-group-btn">
-                            <input style=" height: 50px;" class="btn btn-success" type="submit" name="" value="Enviar">
+                    <a href="{{action('MensajeController@listarMensajesContacto',['idc'=>$contacto->idUsuarioContacto])}}"><li class="list-group-item" ><b style="
+                    <?php echo (($contacto->estado==1) ? "background-color:#008000b3;color:#008000b3;" : "background-color:#f009;color:#f009;"); ?>"
+                    >|</b>
+                    {{$contacto->nombre.' '.$contacto->apellidoPaterno}} <span>({{$contacto->nickname}})</span>
+                    </li></a>
+                    
+                @endforeach
+            </ul>
+        </div>
+        <div class="col-md-7" style="border-left: solid 1px #eee;">
+        <?php
+            if (isset($idc)) {
+                ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="text-left">{{$contactoMensaje->nickname}}</h4>
+                        <div class="bg-info" style=" padding:10px;width: 100%; height: 300px;overflow-y: auto;overflow-x: hidden;">
+                            <?php
+                                $fotoUsuario = obtenerFoto(Auth::user()->idUsuario);
+                                $fotoUsuarioContacto = obtenerFoto($idc);
+                                foreach ($mensajes as $mensaje) {
+                                    ?>
+                                    <div class="row">
+                                    <?php
+                                    if ($mensaje->idUsuario == Auth::user()->idUsuario) {
+                                        ?>
+                                        <div class="col-md-11 text-right" style="padding:0px;">
+                                        <span class="label label-primary">
+                                        {{$mensaje->mensaje}}
+                                        </span>
+                                        </div>
+                                        <div class="col-md-1 text-left" style="padding: 2px;"><img style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="30" height="30"></div>
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <div class="col-md-1 text-right" style="padding:2px;"><img style="border-radius: 50%;" src="<?php echo (($fotoUsuarioContacto!='') ? asset('img/fotosPerfil/'.$fotoUsuarioContacto) : asset('img/sin_foto.png')); ?>" width="30" height="30"></div>
+                                        <div class="col-md-11 text-left" style="padding:0px;">
+                                        <span class="label label-primary"> {{$mensaje->mensaje}}
+                                        </span>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                    </div>
+                                    <?php
+                                }//fin foreach de mensajes
+                            ?>
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <br>
+                        <form action="{{action('MensajeController@enviarMensaje')}}" method="POST">
+                        {{csrf_field()}}
+                            <input type="hidden" name="idUsuarioContacto" value="{{$idc}}">
+                        <div class="input-group">
+                            <textarea name="mensaje" placeholder="Escriba su mensaje aquí..." class="form-control" style="border:1;width: 100%; height: 50px;overflow-y: scroll;"></textarea>
+                            <div class="input-group-btn">
+                                <input style=" height: 50px;" class="btn btn-success" type="submit" name="" value="Enviar">
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+                <?php
+            }else{
+                ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-control" style="width: 100%; height: 300px;overflow-y: scroll;"></div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <br>
+                        <div class="input-group">
+                            <textarea placeholder="Escriba su mensaje aquí..." class="form-control" style="border:1;width: 100%; height: 50px;overflow-y: scroll;"></textarea>
+                            <div class="input-group-btn">
+                                <input style=" height: 50px;" class="btn btn-success" type="submit" name="" value="Enviar">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <?php
+            }//fin else
+        ?>
+            
         </div>
     </div>
 </div>

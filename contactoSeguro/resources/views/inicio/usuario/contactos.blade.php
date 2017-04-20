@@ -10,33 +10,51 @@
 
     <hr>
     <div class="row text-center">
+    <div class="col-md-12">
     <div class="row">
-        <div  class="col-md-12 text-right">
-            <a style="margin: 10px;" class="btn btn-success" href="{{url('contactos/crear')}}"><span class="glyphicon glyphicon-plus"></span> Agregar contacto</a>
+        <div  class="col-md-11 text-right">
+            <a style="" class="btn btn-success" href="{{url('contactos/crear')}}"><span class="glyphicon glyphicon-plus"></span> Agregar contacto</a>
         </div>
+        <br/>
+        <br/>
     </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div style="background-color: #eee;border:dotted black;margin: 20px; padding:5px" class="row">
-                    <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-                    <h2>Juan Cruz</h2>
-                    <h3><a href="{{url('contacto/1')}}">Ver información</a></h3>
+    <?php
+        $contador = 1;
+        $columnas = 3;
+        if (count($lc)>0) {
+        foreach ($lc as $contacto) {
+            if ($contador==1) {
+                echo "<div class='row' >";
+            }
+    ?>
+                <div class="col-md-4" >
+                    <a style="text-decoration: none;color: black" href="{{url('contacto/'.$contacto->idUsuarioContacto)}}">
+                    <div style="margin:10px; background-color: #eee;border:dotted black;padding: 10px; border-radius:15px;" class="row">
+                        <?php
+                        $fotoUsuario = $contacto->foto; 
+                        ?>
+                        <img style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="150" height="150">
+
+                        <h2>{{$contacto->nombre.' '.$contacto->apellidoPaterno}}</h2>
+                    </div>
+                    </a>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div style="background-color: #eee;border:dotted black;margin: 20px; padding:5px" class="row">
-                    <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-                    <h2>Jesus Ross</h2>
-                    <h3><a href="{{url('contacto/1')}}">Ver información</a></h3>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div style="background-color: #eee;border:dotted black;margin: 20px; padding:5px" class="row">
-                    <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-                    <h2>Juan Vazquez</h2>
-                    <h3><a href="{{url('contacto/1')}}">Ver información</a></h3>
-                </div>
-            </div>
+    <?php
+            if ($contador==$columnas) {
+                echo "</div>";
+                $contador=0;
+            }
+            $contador++;
+        }//fin foreach
+    }else{
+        echo "<h3>Aún no has agregado contactos.</h3>";
+    }
+
+        if ($contador>1 && $contador<$columnas) {
+            echo "</div>";
+        }
+    ?>
+        
         </div>
     </div>
 </div>

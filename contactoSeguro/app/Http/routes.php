@@ -25,9 +25,7 @@ Route::get('login', function () {
 
 Route::get('inicio/mi-cuenta', 'UsuarioController@mostrarInicio');
 
-Route::get('contactos', function () {
-    return view('inicio/usuario/contactos')->with("active","contactos");
-});
+Route::get('contactos', 'ContactoController@listarContactosPrimerNivel');
 Route::get('contactos/crear', 'UsuarioController@mostrarFormularioBuscar');
 
 Route::get('mensajes', function () {

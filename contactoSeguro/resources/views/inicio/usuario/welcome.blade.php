@@ -1,18 +1,19 @@
 @include('template.arribaUsuario')
 
 <div class="container-fluid">
-    <br>
 
     <div class="row">
         <div class="col-md-2 text-center">
-            <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
+            <?php
+            $fotoUsuario = obtenerFoto(Auth::user()->idUsuario); 
+            ?>
+            <img style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="150" height="150">
         </div>
         <div class="col-md-10 text-left">
                 <h1>{{Auth::user()->nickname}} </h1>
-                <h3>En línea</h3>
+                <h3><?php echo ((Auth::user()->estado==1) ? "<div class='btn btn-success' style='height:25px;width:20px;border-radius: 50%;'></div> En línea" : "<div class='btn btn-warning' style='height:25px;width:20px;border-radius: 50%;'></div> Ausente"); ?></h3>
         </div>
     </div>
-    <br>
 
     <hr>
     <div class="row text-center">
@@ -25,9 +26,9 @@
                         <span class="glyphicon glyphicon-eye-open"></span> Estado
                         </li>
                     </a>
-                    <a  href="{{url('actividades')}}">
+                    <a  href="{{url('rutinas')}}">
                         <li style="color: black" class="btn-info list-group-item">
-                        <span class="glyphicon glyphicon-tasks"></span> Actividades
+                        <span class="glyphicon glyphicon-tasks"></span> Rutinas
                         </li>
                     </a>
                     <a style="color: black" href="{{url('mensajes')}}">
@@ -41,24 +42,29 @@
                     </a>
                 </ul>
             </div>
-            <label><span class="glyphicon glyphicon-calendar"></span></label>
-            <input class="form-control" type="date" name="fecha" value="{{date('Y-m-d')}}">
+
         </div>
         <div class="col-md-9" style="border-left: solid 1px #eee;">
             <div class="row">
                 <div class="col-md-3">
                     <p style="font-size: 25px"><span class="glyphicon glyphicon-map-marker"></span> Ubicacion</p>
                 </div>
-                <div class="col-md-7">
-                    <p style="font-size: 25px"><span class="glyphicon glyphicon-random"></span> <b>Actividad:</b> Universidad</p>
+                <div class="col-md-6">
+                    @if($eventoActual!=null)
+                    <p style="font-size: 25px">
+                    <span class="glyphicon glyphicon-random"></span> 
+                    <b>Actividad:</b> {{$eventoActual->nombre}}</p>
+                    @endif
                 </div>
-                <div class="col-md-2">
-                    <p style="font-size: 25px"><span class="glyphicon glyphicon-calendar"></span> Hoy</p>
+                <div class="col-md-3">
+                    <p style="font-size: 25px"><span class="glyphicon glyphicon-calendar"></span> {{date("d-m-Y H:i:s")}}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3726.3259457474855!2d-89.61745258558452!3d20.939421696199254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f5672270a784baf%3A0x764b40010695f0d9!2sUniversidad+Tecnol%C3%B3gica+Metropolitana!5e0!3m2!1ses-419!2smx!4v1487780896650" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                    <div id="mapa" style="height: 500px;width:100%"></div>
+                    <script src="{{ asset('js/maps/coordenadas.js')}}" ></script>
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjGz2gYVbF02dEl8-Bnh0jSuMY0npmTz0&callback=initMap"></script>
                 </div>
             </div>
         </div>

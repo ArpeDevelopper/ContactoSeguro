@@ -1,18 +1,12 @@
 @include('template.arribaUsuario')
 
 <div class="container-fluid">
-    <br>
 
     <div class="row">
-        <div class="col-md-2 text-center">
-            <span style="font-size: 100px;" class="glyphicon glyphicon-user"></span>
-        </div>
-        <div class="col-md-10 text-left">
-                <h1>Luis Gonzalez </h1>
-                <h3>En línea</h3>
+        <div class="col-md-12 text-center">
+            <h2 style="font-size: 25px"><span class="glyphicon glyphicon-tasks"></span> Mis rutinas</h2>
         </div>
     </div>
-    <br>
 
     <hr>
     <div class="row text-center">
@@ -25,9 +19,9 @@
                         <span class="glyphicon glyphicon-eye-open"></span> Estado
                         </li>
                     </a>
-                    <a  href="{{url('actividades')}}">
+                    <a  href="{{url('rutinas')}}">
                         <li style="color: black" class="btn-info list-group-item">
-                        <span class="glyphicon glyphicon-tasks"></span> Actividades
+                        <span class="glyphicon glyphicon-tasks"></span> Rutinas
                         </li>
                     </a>
                     <a style="color: black" href="{{url('mensajes')}}">
@@ -41,52 +35,67 @@
                     </a>
                 </ul>
             </div>
-            <label><span class="glyphicon glyphicon-calendar"></span></label>
-            <input class="form-control" type="date" name="fecha" value="{{date('Y-m-d')}}">
+
         </div>
         <div class="col-md-9" style="border-left: solid 1px #eee;">
-            <div class="row">
-                <div class="col-md-4">
-                    <p style="font-size: 25px"><span class="glyphicon glyphicon-tasks"></span> Rutinas y actividades</p>
-                </div>
-                <div class="col-md-8 text-right">
-                    <p style="font-size: 25px"><span class="glyphicon glyphicon-calendar"></span> Hoy</p>
-                </div>
-            </div>
+            
             <div class="row">
                 <div class="col-md-12 ">
                     <table class="table table-hover ">
                         <tr class="text-left">
-                            <th><span class="glyphicon glyphicon-tasks"></span> Actividad</th>
-                            <th><span class="glyphicon glyphicon-map-marker"></span> Ubicación</th>
+                            
                             <th><span class="glyphicon glyphicon-calendar"></span> Fecha</th>
                             <th><span class="glyphicon glyphicon-time"></span> Horario</th>
-                            <th> <span class="glyphicon glyphicon-check"></span> Realizado</th>
+                            <th><span class="glyphicon glyphicon-map-marker"></span> Ubicación</th>
+                            <th><span class="glyphicon glyphicon-remove"></span> Eliminar</th>
                         <tr>
+                        @foreach($listaRutinas as $rutina)
                         <tr class="text-left">
-                            <td>Universidad</td>
-                            <td>Calle 115 (Circuito Colonias Sur) No. 404 por Calle 50, Santa Rosa, 97279 Mérida, Yuc.</td>
-                            <td>Lunes a Viernes</td>
-                            <td>16:00 - 21:00</td>
-                            <td>Si</td>
+                            
+                            <td>
+                                <?php 
+                                $listaDias = obtenerDiasRutina($rutina->idRutina);
+                                $totalDias = count($listaDias);
+                                for ($i=0; $i < $totalDias; $i++) { 
+
+                                    echo ($i!=0) ? (($i == $totalDias-1)? " y " : ", ") : "";
+                                    
+                                    echo $listaDias[$i]->dia;
+                                }
+                                ?>
+                            </td>
+                            <td>{{$rutina->horaInicio}} {{$rutina->horaFinal}}</td>
+                            <td><button type="button" class="btn btn-info btn-lg verMapa" data-toggle="modal" data-target="#myModal">
+                              Ver mapa
+                            </button><span style="display: none;" class="ubicacion">{{$rutina->ubicacion}}</span></td>
+                            <td><a class="btn btn-danger" href="{{action('RutinasController@eliminarRutina',['id'=> $rutina->idRutina])}}"><span class="glyphicon glyphicon-remove"></span></a></td>
                         </tr>
-                        <tr class="text-left">
-                            <td>Trabajo</td>
-                            <td>Calle 60 301 A, Cordemex Revolucion, Cordemex, 97110 Mérida, Yuc.</td>
-                            <td>Lunes a Viernes</td>
-                            <td>8:00 - 15:00</td>
-                            <td>Si</td>
-                        </tr>
-                        <tr class="text-left">
-                            <td>Fiesta en familia</td>
-                            <td>Calle 2 No. 282, Col. Melchor Ocampo, Sin Nombre de Col 6, 97165 Mérida, Yuc.</td>
-                            <td>Sábado 25 de febrero </td>
-                            <td>10:00 - 18:00</td>
-                            <td>No</td>
-                        </tr>
+                        @endforeach
+                        
                     </table>
                 </div>
             </div>
+
+            
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Ubicación</h4>
+                  </div>
+                  <div class="modal-body">
+                    <div id="mapa" style="height: 500px;width:100%"></div>
+                    <script src="{{ asset('js/maps/marcadoresRutinas.js')}}" ></script>
+                    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjGz2gYVbF02dEl8-Bnh0jSuMY0npmTz0"></script>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
         </div>
     </div>
 </div>

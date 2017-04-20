@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\BusinessObject;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -62,6 +63,12 @@ class AuthController extends Controller
     public function logOut()
     {
         //Auth::logout();
+        $idUsuario = Auth::user()->idUsuario;
+        $context["idUsuario"]= $idUsuario;
+        $context["estado"]=0;
+        $bo = new BusinessObject($context);
+        $bo->cambiarEstadoLogin();
+
         Session::flush();
         return redirect('login')->with('mensaje', array("class"=>"danger","mensaje"=>'Tu sesión ha sido cerrada.'))->with('active', "login");
     }
@@ -76,6 +83,10 @@ class AuthController extends Controller
         // Validamos los datos y además mandamos como un segundo parámetro la opción de recordar el usuario.
         if(Auth::attempt($credentials))
         {
+            $context["idUsuario"]=Auth::user()->idUsuario;
+            $context["estado"]=1;
+            $bo = new BusinessObject($context);
+            $bo->cambiarEstadoLogin();
             // De ser datos válidos nos mandara a la bienvenida
             return redirect('inicio/mi-cuenta');
             //return redirect()->action('PersonaController@testPersona');

@@ -44,7 +44,107 @@ var lat;
 	<link rel="stylesheet" href="{{asset('footer/css/footer-distributed-with-address-and-phones.css')}}">
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 	<link href="http://fonts.googleapis.com/css?family=Cookie" rel="stylesheet" type="text/css">
+	<script src="{{asset('js/socket/brain-socket/lib/brain-socket.min.js')}}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function(){
 
+            var fake_user_id = {{Auth::user()->idUsuario}};
+            var idUC = "";
+            var fotoIdUC = "";
+            var fotoIdU = "";
+            if($('input#idUC').length > 0){
+	            idUC = $('input#idUC').val();
+	        }
+
+	        if($("img#fotoIdUC").length > 0){
+	            fotoIdUC = $('img#fotoIdUC').attr("src");
+	        }
+	        if($('img#fotoIdU').length > 0){
+	            fotoIdU = $('img#fotoIdU').attr("src");
+	        }
+            var idU = '{{Auth::user()->idUsuario}}';
+
+            //make sure to update the port number if your ws server is running on a different one.
+            window.app = {};
+
+            app.BrainSocket = new BrainSocket(
+                    new WebSocket('ws://192.168.1.67:8888'),
+                    new BrainSocketPubSub()
+            );
+
+            app.BrainSocket.Event.listen('mensajes.usuario_'+idU,function(msg){
+                console.log(msg);
+                if($("div#usuario_"+msg.client.data.user_id+"_"+idU).length > 0){
+
+	                if(msg.client.data.user_id == fake_user_id){
+	                    $('div#usuario_'+msg.client.data.user_id+'_'+idU).append('<div class="row"><div class="col-md-12 text-right" style="padding:0px;"><span style="box-shadow: 2px 2px 5px black;" class="label label-primary">'+msg.client.data.message+'</span><img style="margin:5px;border-radius: 50%;" src="'+fotoIdU+'" width="30" height="30"></div></div>');
+	                    
+	                    /**/
+	                }else{
+	                    $('div#usuario_'+msg.client.data.user_id+'_'+idU).append('<div class="row"><div class="col-md-12 text-left" style="padding:0px;"><img style="margin:5px;border-radius: 50%;" src="'+fotoIdUC+'" width="30" height="30"><span style="box-shadow: -2px 2px 5px black;" class="label label-primary">'+msg.client.data.message+'</span></div></div>');
+
+
+
+	                    /**/
+	                }
+
+	                $('#contenedorMensajes').scrollTop($('#contenedorMensajes').height()*100);
+            	}else{
+            		 $('a#hrefMensajes').append('<span style="background-color:rgba(249, 0, 0, 0.79);" class="badge">!</span>');
+            	}
+            });
+
+            app.BrainSocket.Event.listen('app.success',function(data){
+                console.log('An app success message was sent from the ws server!');
+                console.log(data);
+            });
+
+            app.BrainSocket.Event.listen('app.error',function(data){
+                console.log('An app error message was sent from the ws server!');
+                console.log(data);
+            });
+
+            $('#textAreaMensaje').keypress(function(event) {
+            	
+
+                        if(event.keyCode == 13){
+
+                            app.BrainSocket.message('mensajes.usuario_'+idUC,
+                                    {
+                                        'message':$(this).val(),
+                                        'user_id':fake_user_id,
+                                        'user_contact' : idUC
+                                    }
+                            );
+
+                            $('div#usuario_'+idUC+'_'+idU).append('<div class="row"><div class="col-md-12 text-right" style="padding:0px;"><span style="box-shadow: 2px 2px 5px black;" class="label label-primary">'+$('#textAreaMensaje').val()+'</span><img style="margin:5px;border-radius: 50%;" src="'+fotoIdU+'" width="30" height="30"></div></div>');
+
+                            $(this).val('');
+                            $('#contenedorMensajes').scrollTop($('#contenedorMensajes').height()*100);
+
+                        }
+
+                        return event.keyCode != 13; }
+            );
+
+            $('#enviarMensajeBoton').click(function(event) {
+            	
+
+                            app.BrainSocket.message('mensajes.usuario_'+idUC,
+                                    {
+                                        'message': $('#textAreaMensaje').val(),
+                                        'user_id':fake_user_id,
+                                        'user_contact' : idUC
+                                    }
+                            );
+
+                            $('div#usuario_'+idUC+'_'+idU).append('<div class="row"><div class="col-md-12 text-right" style="padding:0px;"><span style="box-shadow: 2px 2px 5px black;" class="label label-primary">'+$('#textAreaMensaje').val()+'</span><img style="margin:5px;border-radius: 50%;" src="'+fotoIdU+'" width="30" height="30"></div></div>');
+
+                $('#textAreaMensaje').val('');
+                $('#contenedorMensajes').scrollTop($('#contenedorMensajes').height()*100);
+			});
+        });
+    </script>
     <title>Contacto Seguro</title>
 </head>
 <body>
@@ -69,7 +169,7 @@ var lat;
 						<a href="{{ url('contactos') }}">Contactos</a>
 					</li>
 					<li class="{{ $active=='mensajes' ? 'active' : '' }}">
-						<a href="{{ url('mensajes') }}">Mensajes</a>
+						<a id="hrefMensajes" href="{{ url('mensajes') }}">Mensajes</a>
 					</li>
 				</ul> 
 				<?php
@@ -77,7 +177,7 @@ var lat;
 				?>
 				<ul class="nav navbar-nav navbar-right"> 
 					<li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span class="badge">{{count($notificaciones)}}</span></a>
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span style="background-color:rgba(249, 0, 0, 0.79);" class="badge">{{count($notificaciones)}}</span></a>
 			          <ul style="max-height: 400px;overflow: auto;" class="dropdown-menu">
 			          	@foreach($notificaciones as $notif)
 			          	<?php  //foreach para las notificaciones
@@ -91,7 +191,7 @@ var lat;
 			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{Auth::user()->nickname}} <?php
 									            $fotoUsuario = obtenerFoto(Auth::user()->idUsuario); 
 									            ?>
-									            <img style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="20" height="20">
+									            <img id="fotoIdU" style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="20" height="20">
 			          <span class="caret"></span></a>
 			          <ul class="dropdown-menu">
 			            <li><a href="{{url('inicio/mi-perfil')}}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Mi perfil</a></li>

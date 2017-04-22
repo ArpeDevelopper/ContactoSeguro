@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
-        \App\Console\Commands\ChatServer::class,
+        //\App\Console\Commands\ChatServer::class,
+        //\App\Console\Commands\PushServer::class,
     ];
 
     /**

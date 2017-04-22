@@ -2,6 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<link rel="shortcut icon" href="{{asset('img/logo.ico')}}">
+
 <?php date_default_timezone_set('America/Merida'); ?>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    
     <script src="{{ asset('bootstrap/js/bootstrap.min.js')}}" ></script>

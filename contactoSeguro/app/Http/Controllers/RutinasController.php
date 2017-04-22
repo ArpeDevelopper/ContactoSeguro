@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BusinessObject;
 use Illuminate\Support\Facades\Auth;
+use BrainSocket\BrainSocketAppResponse;
 
 class RutinasController extends Controller
 {

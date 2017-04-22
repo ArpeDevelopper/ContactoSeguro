@@ -1,5 +1,10 @@
 @include('template.arribaUsuario')
-
+<script type="text/javascript">
+    $(function(){
+        $('a#hrefMensajes').html('Mensajes');
+        $('#contenedorMensajes').scrollTop($('#contenedorMensajes').height()*100);
+    });
+</script>
 <div class="container-fluid">
 
     <div class="row">
@@ -57,32 +62,38 @@
         <div class="col-md-7" style="border-left: solid 1px #eee;">
         <?php
             if (isset($idc)) {
+                    $fotoUsuarioContacto = obtenerFoto($idc);
                 ?>
                 <div class="row">
-                    <div class="col-md-12">
-                        <h4 class="text-left">{{$contactoMensaje->nickname}}</h4>
-                        <div class="bg-info" style=" padding:10px;width: 100%; height: 300px;overflow-y: auto;overflow-x: hidden;">
+                    <div class="col-md-12" >
+                        <h4 class="text-left"><img  id="fotoIdUC" style="border-radius: 50%;" src="<?php echo (($fotoUsuarioContacto!='') ? asset('img/fotosPerfil/'.$fotoUsuarioContacto) : asset('img/sin_foto.png')); ?>" width="30" height="30"> {{$contactoMensaje->nickname}}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="contenedorMensajes" class="col-md-12 bg-info" style=" padding:10px;width: 100%; height: 300px;overflow-y: auto;overflow-x: hidden;box-shadow: 0px 0px 5px;">   
+                        <div id="usuario_{{$idc}}_{{Auth::user()->idUsuario}}" class="bg-info" style=" padding:10px;">
                             <?php
                                 $fotoUsuario = obtenerFoto(Auth::user()->idUsuario);
-                                $fotoUsuarioContacto = obtenerFoto($idc);
+                                
                                 foreach ($mensajes as $mensaje) {
                                     ?>
                                     <div class="row">
                                     <?php
                                     if ($mensaje->idUsuario == Auth::user()->idUsuario) {
                                         ?>
-                                        <div class="col-md-11 text-right" style="padding:0px;">
-                                        <span class="label label-primary">
+                                        <div class="col-md-12 text-right" style="padding:0px;">
+                                        <span style="box-shadow: 2px 2px 5px black;" class="label label-primary">
                                         {{$mensaje->mensaje}}
                                         </span>
+                                        <img style="margin:5px;border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="30" height="30">
                                         </div>
-                                        <div class="col-md-1 text-left" style="padding: 2px;"><img style="border-radius: 50%;" src="<?php echo (($fotoUsuario!='') ? asset('img/fotosPerfil/'.$fotoUsuario) : asset('img/sin_foto.png')); ?>" width="30" height="30"></div>
+                                        
                                         <?php
                                     }else{
                                         ?>
-                                        <div class="col-md-1 text-right" style="padding:2px;"><img style="border-radius: 50%;" src="<?php echo (($fotoUsuarioContacto!='') ? asset('img/fotosPerfil/'.$fotoUsuarioContacto) : asset('img/sin_foto.png')); ?>" width="30" height="30"></div>
-                                        <div class="col-md-11 text-left" style="padding:0px;">
-                                        <span class="label label-primary"> {{$mensaje->mensaje}}
+                                        <div class="col-md-12 text-left" style="padding:0px;">
+                                        <img style="margin:5px;border-radius: 50%;" src="<?php echo (($fotoUsuarioContacto!='') ? asset('img/fotosPerfil/'.$fotoUsuarioContacto) : asset('img/sin_foto.png')); ?>" width="30" height="30">
+                                        <span style="box-shadow: -2px 2px 5px black;" class="label label-primary"> {{$mensaje->mensaje}}
                                         </span>
                                         </div>
                                         <?php
@@ -98,13 +109,14 @@
 
                     <div class="col-md-12">
                         <br>
-                        <form action="{{action('MensajeController@enviarMensaje')}}" method="POST">
+                        <form <?php /*action="{{action('MensajeController@enviarMensaje')}}" method="POST" */ ?> >
                         {{csrf_field()}}
-                            <input type="hidden" name="idUsuarioContacto" value="{{$idc}}">
+                            <input id="idUC" type="hidden" name="idUsuarioContacto" value="{{$idc}}">
+                            <input id="idU" type="hidden" name="idUsuario" value="{{Auth::user()->idUsuario}}">
                         <div class="input-group">
-                            <textarea name="mensaje" placeholder="Escriba su mensaje aquí..." class="form-control" style="border:1;width: 100%; height: 50px;overflow-y: scroll;"></textarea>
+                            <textarea id="textAreaMensaje" name="mensaje" placeholder="Escriba su mensaje aquí..." class="form-control" style="border:1;width: 100%; height: 50px;overflow-y: scroll;"></textarea>
                             <div class="input-group-btn">
-                                <input style=" height: 50px;" class="btn btn-success" type="submit" name="" value="Enviar">
+                                <input id="enviarMensajeBoton" style=" height: 50px;" class="btn btn-success" type="button" name="" value="Enviar">
                             </div>
                         </div>
                         </form>

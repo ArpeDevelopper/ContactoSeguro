@@ -9,32 +9,15 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{asset('js/socket/brain-socket/example/css/bootstrap.css')}}" type="text/css" media="screen">
+    <?php /*<link rel="stylesheet" href="{{asset('js/socket/brain-socket/example/css/bootstrap.css')}}" type="text/css" media="screen">
     <link rel="stylesheet" href="{{asset('js/socket/brain-socket/example/')}}css/bootstrap-responsive.min.css" type="text/css" media="screen">
-    <script src="{{asset('js/socket/brain-socket/example/js/modernizr-2.6.2.min.js')}}"></script>
-</head>
-<body>
-    <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="span12" id="chat-app">
-                <h1>
-                    BrainSocket.js Example Chat App
-                </h1>
-                <form class="form-inline">
-                    <input type="text" class="input" id="chat-message" placeholder="Type a message and hit enter.">
-                </form>
-                <div id="chat-log">
-
-                </div>
-            </div>
-        </div>
-    </div>
+    <script src="{{asset('js/socket/brain-socket/example/js/modernizr-2.6.2.min.js')}}"></script> */?>
 
     <!--@scripts start-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-    <script src="{{asset('js/socket/brain-socket/example/js/bootstrap.js')}}"></script>
-    <script src="{{asset('js/socket/brain-socket/example/js/brain-socket.min.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <?php //<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script> ?>
+    <script src="{{asset('bootstrap/js/bootstrap.js')}}"></script>
+    <script src="{{asset('js/socket/brain-socket/lib/brain-socket.min.js')}}"></script>
     <script type="text/javascript" charset="utf-8">
         $(function(){
 
@@ -48,7 +31,7 @@
                     new BrainSocketPubSub()
             );
 
-            app.BrainSocket.Event.listen('generic.event1',function(msg){
+            app.BrainSocket.Event.listen('generic.event',function(msg){
                 console.log(msg);
                 if(msg.client.data.user_id == fake_user_id){
                     $('#chat-log').append('<div class="alert alert-success">Me: '+msg.client.data.message+'</div>');
@@ -71,7 +54,7 @@
 
                         if(event.keyCode == 13){
 
-                            app.BrainSocket.message('generic.event1',
+                            app.BrainSocket.message('generic.event',
                                     {
                                         'message':$(this).val(),
                                         'user_id':fake_user_id
@@ -85,5 +68,24 @@
             );
         });
     </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12" id="chat-app">
+                <h1>
+                    BrainSocket.js Example Chat App
+                </h1>
+                <form class="form-inline">
+                    <input type="text" class="input" id="chat-message" placeholder="Type a message and hit enter.">
+                </form>
+                <div id="chat-log">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 </body>
 </html>

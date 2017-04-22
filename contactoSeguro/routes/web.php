@@ -13,6 +13,9 @@
 Route::get('/chat', function () {
     return view('chat');
 });
+Route::get('/chat2', function () {
+    return view('chat2');
+});
 
 Route::get('/', function () {
     return view('welcome')->with("active","inicio");

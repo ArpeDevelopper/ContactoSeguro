@@ -352,6 +352,24 @@ class BusinessObject
             return false;
         }
     }
+
+    public function enviarMensajeOnline(){
+        $json = json_decode($this->context["json"]);
+        $mensaje = new Mensaje();
+        $mensaje["idUsuario"] =  $json->client->data->user_id;
+        $mensaje["idUsuarioContacto"] = $json->client->data->user_contact;
+        $mensaje["mensaje"] = $json->client->data->message;
+        $mensaje["fecha"] = date("Y-m-d");
+        $mensaje["estado"] = 0;
+        $res = $mensaje->save();
+//bcrypt
+        if($res){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public function obtenerUltimoMensaje(){
         //$logins = Login::all();
         $mensajes = Mensaje::orderBy("idMensaje","ASC")->get();

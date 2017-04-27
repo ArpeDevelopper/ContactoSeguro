@@ -16,6 +16,7 @@ Route::get('/chat', function () {
 Route::get('/chat2', function () {
     return view('chat2');
 });
+Route::get('/init-event', 'RutinasController@publicar');
 
 Route::get('/', function () {
     return view('welcome')->with("active","inicio");

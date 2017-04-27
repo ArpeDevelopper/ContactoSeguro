@@ -20,16 +20,16 @@
             ?>
            <form method="POST" action="{{action('Auth\AuthController@postLogin')}}">
            {{csrf_field()}}
-                <label>Nombre de usuario</label>
-               <input class="form-control" type="text" name="usuario" placeholder="Nombre de usuario">
+                <label>Nombre de usuario o correo</label>
+               <input required="" class="form-control" type="text" name="usuario" placeholder="Nombre de usuario o correo">
                <br>
                <label>Contraseña</label>
-               <input placeholder="Contraseña" class="form-control" type="password" name="password" >
+               <input required="" placeholder="Contraseña" class="form-control" type="password" name="password" >
                <br>
                <a href="">¿Olvidó su contraseña?</a>
                <br>
                <div class="text-center">
-                    <input class="form-control" type="checkbox" name="condiciones" ><i>Mantenerme conectado</i>
+                    <!--<input class="form-control" type="checkbox" name="recordar" ><i>Mantenerme conectado</i>!-->
                     <br>
                     <br>
                     <?php //<a class="btn btn-success" href="{{url('inicio/mi-cuenta')}}">Iniciar sesión</a> ?>

@@ -77,11 +77,16 @@ class AuthController extends Controller
     {
         // Guardamos en un arreglo los datos del usuario.
         $userdata = $r->all();
+        $credentials1 = array('correo' => $userdata['usuario'], 'password' => $userdata['password']);
         $credentials = array('nickname' => $userdata['usuario'], 'password' => $userdata['password']);
 
-        //var_dump(Auth::attempt($credentials));
+        $recordar = false;
+        /*if($userdata["recordar"]=="on"){
+            $recordar = true;
+
+        }*/
         // Validamos los datos y además mandamos como un segundo parámetro la opción de recordar el usuario.
-        if(Auth::attempt($credentials))
+        if(Auth::attempt($credentials,$recordar) || Auth::attempt($credentials1,$recordar))
         {
             $context["idUsuario"]=Auth::user()->idUsuario;
             $context["estado"]=1;

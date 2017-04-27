@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\BusinessObject;
 use Illuminate\Support\Facades\Auth;
-use BrainSocket\BrainSocketAppResponse;
+
+use WebSocket\Client;
 
 class RutinasController extends Controller
 {
@@ -34,5 +35,21 @@ class RutinasController extends Controller
         }
         
     }
-    
+
+
+    public function publicar() {
+        // Do db stuff here
+        // Notify all connected brainsocket clients
+        $client = new Client("ws://192.168.1.67:8888"); 
+        $message = json_decode('{"message":"Notificacion","user_id":18,"user_contact":11,"notificacion":true}');
+        $data = array(
+            'client' => array(
+                'event' => 'notificaciones.usuario_11',
+                'data'  => $message
+            )
+        );
+        $client->send(json_encode($data));
+        $client->close();
+    }
+
 }	

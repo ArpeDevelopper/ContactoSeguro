@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\BusinessObject;
+use WebSocket\Client;
 
 class NotificacionController extends Controller
 {
@@ -22,9 +23,30 @@ class NotificacionController extends Controller
 	        $bObject->context["mensaje"] = '{"mensaje": "¡'.$usuarioQueEnvia->nickname.' quiere que seas parte de sus contactos de primer nivel!, haz clic si deseas aceptarlo","class": "info","enlace": "NotificacionController@aceptarSolicitud","emisor":"'.$usuarioQueEnvia->idUsuario.'"}';
 	        $bObject->context["estado"] = 0;
 	        $bObject->context["idUsuario"] = $idu;
+
+            $res = $bObject->crearNotificacion();
+            $ultimaNotif = $bObject->obtenerUltimaNotificacion();
+
+            //codigo para enviar notificacion y actualizar la parte de notificaciones
+            $enlace = action("NotificacionController@aceptarSolicitud",["idn"=>$ultimaNotif->idNotificacion,"ide"=>$usuarioQueEnvia->idUsuario,"idu"=>$idu]);
+            $client = new Client("ws://192.168.1.67:8888"); 
+            $message = json_decode('{"message":"¡'.$usuarioQueEnvia->nickname.' quiere que seas parte de sus contactos de primer nivel!, haz clic si deseas aceptarlo","class": "info","enlace": "'.$enlace.'","emisor":"'.$usuarioQueEnvia->idUsuario.'","user_id":'.$usuarioQueEnvia->idUsuario.',"user_contact":'.$idu.',"notificacion":true}');
+            $data = array(
+                'client' => array(
+                    'event' => 'notificaciones.usuario_'.$idu,
+                    'data'  => $message,
+                    'fecha' => date("Y-m-d")
+                )
+            );
+            $client->send(json_encode($data));
+            $client->close();
+            //fin de codigo para actualizar la parte de notificaciones
         }
         
-        $res = $bObject->crearNotificacion();
+        
+
+        
+
         return view('inicio/usuario/formularioContacto')->with("active","")->with("mensaje", array("class"=>"succes","mensaje"=>"Solicitud enviada con éxito"));
         
     }
@@ -50,6 +72,22 @@ class NotificacionController extends Controller
             $bo->context["idUsuario"] = $ide;
         
         $res = $bo->crearNotificacion();
+        $ultimaNotif = $bo->obtenerUltimaNotificacion();
+
+        //codigo para enviar notificacion y actualizar la parte de notificaciones
+            $enlace = action("NotificacionController@infoSolicitudAceptada",["idn"=>$ultimaNotif->idNotificacion,"ide"=>$usuarioActual->idUsuario,"idu"=>$ide]);
+            $client = new Client("ws://192.168.1.67:8888"); 
+            $message = json_decode('{"message":"¡'.$usuarioActual->nickname.' ha aceptado tu Solicitud! Visita su perfil","class": "success","enlace": "'.$enlace.'","emisor":"'.$usuarioActual->idUsuario.'","user_id":'.$usuarioActual->idUsuario.',"user_contact":'.$ide.',"notificacion":true}');
+            $data = array(
+                'client' => array(
+                    'event' => 'notificaciones.usuario_'.$ide,
+                    'data'  => $message,
+                    'fecha' => date("Y-m-d")
+                )
+            );
+            $client->send(json_encode($data));
+            $client->close();
+            //fin de codigo para actualizar la parte de notificaciones
 
         return redirect()->action("ContactoController@listarContactosPrimerNivel");
         

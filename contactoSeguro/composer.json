@@ -11,7 +11,8 @@
         "maddhatter/laravel-fullcalendar": "~1.0",
         "cboden/ratchet": "^0.3.3",
         "react/zmq": "0.2.*|0.3.*",
-        "brainboxlabs/brain-socket": "v1.0.0"
+        "brainboxlabs/brain-socket": "v1.0.0",
+        "textalk/websocket": "1.0.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

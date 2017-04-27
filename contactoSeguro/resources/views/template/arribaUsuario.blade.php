@@ -71,7 +71,13 @@ var lat;
                     new WebSocket('ws://192.168.1.67:8888'),
                     new BrainSocketPubSub()
             );
-
+            app.BrainSocket.Event.listen('notificaciones.usuario_'+idU,function(msg){
+            	var numeroNotifDiv = $("span#numeroNotificaciones");
+            	var numeroNotif = numeroNotifDiv.html();
+            	numeroNotif++;
+            	numeroNotifDiv.html(numeroNotif);
+            	$("#contenedorNotificaciones").append('<a style="text-align:center;text-decoration: none" href="'+msg.client.data.enlace+'"><li class="btn-'+msg.client.data.class+'" style="width:250px;padding: 15px;" >'+msg.client.data.message+' </li></a><hr style="margin: 0px;"/>');
+            });
             app.BrainSocket.Event.listen('mensajes.usuario_'+idU,function(msg){
                 console.log(msg);
                 if($("div#usuario_"+msg.client.data.user_id+"_"+idU).length > 0){
@@ -177,8 +183,8 @@ var lat;
 				?>
 				<ul class="nav navbar-nav navbar-right"> 
 					<li class="dropdown">
-			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span style="background-color:rgba(249, 0, 0, 0.79);" class="badge">{{count($notificaciones)}}</span></a>
-			          <ul style="max-height: 400px;overflow: auto;" class="dropdown-menu">
+			          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span><span style="background-color:rgba(249, 0, 0, 0.79);" class="badge" id="numeroNotificaciones">{{count($notificaciones)}}</span></a>
+			          <ul id="contenedorNotificaciones" style="max-height: 400px;overflow: auto;" class="dropdown-menu">
 			          	@foreach($notificaciones as $notif)
 			          	<?php  //foreach para las notificaciones
 			          		$mensajeN = json_decode($notif->mensaje);

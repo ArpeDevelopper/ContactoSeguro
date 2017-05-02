@@ -38,7 +38,7 @@ class RutinasController extends Controller
 
 
     public function publicar() {
-        // Do db stuff here
+        /*// Do db stuff here
         // Notify all connected brainsocket clients
         $client = new Client("ws://192.168.1.67:8888"); 
         $message = json_decode('{"message":"Notificacion","user_id":18,"user_contact":11,"notificacion":true}');
@@ -49,7 +49,8 @@ class RutinasController extends Controller
             )
         );
         $client->send(json_encode($data));
-        $client->close();
+        $client->close();*/
+        echo asset('bootstrap/js/bootstrap.min.js',"https");
     }
 
 }	
